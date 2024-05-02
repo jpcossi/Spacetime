@@ -13,7 +13,24 @@ datasource db {
 // schema creation
 //@id define primary key
 //@default (uuid()) give an unique id when a user is created -> uuid = universal unique id
+// "user (name of teh model)" is the command to make two models have a relation creating a foreigner key 
 model User {
-  id   String @id @default(uuid())
-  name String
+  id        String   @id @default(uuid())
+  githubId  Int      @unique
+  name      String
+  login     String
+  avatarUrl String
+  Memory    Memory[]
+}
+
+model Memory {
+  id     String @id @default(uuid())
+  userId String
+
+  coverUrl  String
+  content   String
+  isPublic  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
 }
