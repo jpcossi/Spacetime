@@ -5,15 +5,17 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
 
+  const redirectTo = request.cookies.get('redirectTo')?.value 
+
   const registerResponse = await api.post('/register', {
     code,
   })
-
+  
   // token contendo info do user do github
   const { token } = registerResponse.data
 
   // redireciona o usuario para a tela inicial depois de fazer a requisição post e adquirir o token contendo as informaçoes do github
-  const redirectURL = new URL('/', request.url)
+  const redirectURL = redirectTo ?? new URL('/', request.url)
 
   const cookieExpiresInSeconds = 60 * 60 * 24 * 30
 

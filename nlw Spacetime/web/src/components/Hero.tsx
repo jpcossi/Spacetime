@@ -1,6 +1,7 @@
 // image do next otimiza imagens  
 import Image from "next/image"
 import nlwlogo from '../assets/logo.svg'
+import Link from "next/link"
 
 export function Hero(){
   return(
@@ -10,9 +11,12 @@ export function Hero(){
         <h1 className="font-bold text-gray-50 leading-tight text-5xl">Sua cápsula do tempo</h1>
         <p className="leading-relaxed text-lg">Colecione momentos marcantes da sua jornada e compartilhe (se quiser) com o mundo!</p>
       </div>         
-      <a href="" className="font-alt font-bold text-sm bg-green-500 text-black rounded-full px-5 py-3 uppercase leading-none inline-block hover:bg-green-600">
+      <Link 
+        href="/memories/new" 
+        className="font-alt font-bold text-sm bg-green-500 text-black rounded-full px-5 py-3 uppercase leading-none inline-block hover:bg-green-600"
+      >
         CADASTRAR LEMBRANÇA
-      </a>
+      </Link>
     </div>
   )
 }
