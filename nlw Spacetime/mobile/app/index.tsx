@@ -1,28 +1,14 @@
 import { useEffect } from 'react';
 import { styled } from 'nativewind';
 import { useRouter } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
-import { ImageBackground, Text, TouchableOpacity, View} from 'react-native';
+import { Text, TouchableOpacity, View} from 'react-native';
 import * as SecureStore from 'expo-secure-store'
-
-import {
-  useFonts,
-  Roboto_400Regular,
-  Roboto_700Bold,
-} from '@expo-google-fonts/roboto'
-import {BaiJamjuree_700Bold } from '@expo-google-fonts/bai-jamjuree'
 
 import { api } from '../src/lib/api';
 import logo from '../src/assets/logo.svg'
-import blurBg from '../src/assets/luz.png'
-import Stripes from '../src/assets/stripes.svg'
 
-// tailwind n funciona em arquivos svg entao tem usar a funcao abaixo do nativewind para poder utlizar tailwind 
-const StyledStripes = styled(Stripes)
 const StyledLogo = styled(logo)
-
-// dp = medida de mobile em vez de pixel
 
 const discovery = {
   authorizationEndpoint: 'https://github.com/login/oauth/authorize',
@@ -33,12 +19,6 @@ const discovery = {
 
 export default function App() {
   const router = useRouter()
-
-  const [hasLoadedFonts] = useFonts({
-    Roboto_400Regular,
-    Roboto_700Bold,
-    BaiJamjuree_700Bold
-  })
 
   const [, response, signInWithGithub] = useAuthRequest(
     {
@@ -56,37 +36,25 @@ export default function App() {
       code, 
     })
     const { token } = response.data
-    console.log("token: ", token)
     await SecureStore.setItemAsync('token', token)
     router.push('/memories')
   }
 
   useEffect(() => {
-   console.log(
+   /*console.log(
     'response',
       makeRedirectUri({
         scheme: 'spacetime',
       }),
-    )       
+    ) */   
     if (response?.type === 'success') {
       const { code } = response.params
-      console.log("code: ", code)
       handleGithubOAuthCode(code)
     }
   }, [response])
 
-  // faz com que o react apenas mostre a interface depois de carregar as fontes
-  if(!hasLoadedFonts){
-    return null
-  }
-
   return (
-    <ImageBackground  
-      source={blurBg}
-      className='bg-gray-900 flex-1 items-center relative py-10'
-      imageStyle={{position: 'absolute', left: '-100%'}}
-    >
-      <StyledStripes className='absolute left-2' />
+    <View className='flex-1 items-center py-10'    >
       <View className='flex-1 flex-col justify-center items-center gap-6 w-[326px] h-[116px]'> 
         <StyledLogo/>
         <View className='space-y-2'>
@@ -105,8 +73,7 @@ export default function App() {
           </Text>
         </TouchableOpacity>
       </View>
-      <Text className='font-body text-gray-200 text-sm leading-relaxed text-center'>Feito com 💜 no NLW da Rocketseat</Text>
-      <StatusBar style="light" translucent/>
-    </ImageBackground>
+      <Text className='font-body text-gray-200 text-sm leading-relaxed text-center'>Feito com 💜 no NLW da Rocketseat</Text>     
+    </View>
   );
 }
