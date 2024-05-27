@@ -1,12 +1,24 @@
 import 'dotenv/config'
 
-import fastify from  "fastify"
-import cors from "@fastify/cors"
+import fastify from "fastify"
 import jwt from "@fastify/jwt"
+import cors from "@fastify/cors"
+import multipart from '@fastify/multipart'
+import fastifyStatic from '@fastify/static'
+
+import { resolve } from 'node:path'
 import { authRoutes } from './routes/auth'
+import { updloadRoutes } from './routes/upload'
 import { memoriesRoutes } from "./routes/memories"
 
 const app = fastify()
+
+app.register(multipart)
+
+app.register(fastifyStatic, {
+  root: resolve(__dirname, '../uploads'),
+  prefix: '/uploads'
+})
 
 app.register(cors, {
   origin : true, // comand origin being true make all urls from frontend can acess the back end, origin: [https://lcoalhost3000] its a example for one url receive acess
@@ -17,6 +29,7 @@ app.register(jwt, {
 })
 
 app.register(authRoutes)
+app.register(updloadRoutes)
 app.register(memoriesRoutes)
 
 app.listen({
