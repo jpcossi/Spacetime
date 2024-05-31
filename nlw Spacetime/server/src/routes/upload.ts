@@ -45,3 +45,4 @@ export async function updloadRoutes(app: FastifyInstance){
     return {fileUrl}
   })
 }
+
