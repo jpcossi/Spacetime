@@ -29,7 +29,6 @@ export default function Layout(){
 
   useEffect(() => {
     SecureStore.getItemAsync('token').then(token => {
-      console.log(!!token)
       setIsUserAuthenticated(!!token)
     })
   }, [])
@@ -48,10 +47,10 @@ export default function Layout(){
       <StyledStripes className='absolute left-2' />
       <StatusBar style="light" translucent/>
 
-      <Stack screenOptions={{ headerShown: false, contentStyle: {backgroundColor: 'transparent'}}}>
+      <Stack screenOptions={{ headerShown: false, contentStyle: {backgroundColor: 'transparent'}, animation: 'fade'}}>
         <Stack.Screen name="index" redirect={isUserAuthenticated}/>
-        <Stack.Screen name="new"/>
         <Stack.Screen name="memories"/>
+        <Stack.Screen name="new"/>
       </Stack>
     </ImageBackground>  
   )
