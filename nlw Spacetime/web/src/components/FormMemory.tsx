@@ -1,10 +1,10 @@
 'use client'
 
-import { FormEvent } from "react";
-import { MediaPicker } from "./MediaPicker";
-import { Camera } from "lucide-react";
-import { api } from "@/lib/api";
 import Cookie from "js-cookie"
+import { api } from "@/lib/api";
+import { FormEvent } from "react";
+import { Camera } from "lucide-react";
+import { MediaPicker } from "./MediaPicker";
 import { useRouter } from "next/navigation";
  
 export function FormMemory(){
